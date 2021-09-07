@@ -1,0 +1,2 @@
+# my_conda_recipe_googletest
+自己做的conda 编译的脚本用于编译google-test
