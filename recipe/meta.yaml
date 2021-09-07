@@ -1,0 +1,78 @@
+{% set version = "1.8.1" %}
+{% set sha256 = "9bf1fe5182a604b4135edc1a425ae356c9ad15e9b23f9f12a02e80184c3a249c" %}
+
+
+package:
+  name: gtest
+  version: {{ version }}
+
+source:
+  fn: release-{{ version }}.tar.gz
+  url: ../source_package/googletest-release-1.8.1.tar.gz
+  sha256: {{ sha256 }}
+
+build:
+  number: 1004
+
+requirements:
+  build:
+    - gcc 4.8.5
+    - python 2.7
+    - cmake
+    - system-gcc48
+  run:
+    - gcc 4.8.5
+    - gmp
+    - system-gcc48
+
+outputs:
+  - name: gtest
+    version: {{ version }}
+    requirements:
+      run_constrained:
+        - gmock {{ version }}
+    files:
+      -  lib/libgtest*                                          # [unix]
+      -  include/gtest                                          # [unix]
+      -  lib/pkgconfig/gtest*.pc                                # [unix]
+    test:
+      commands:
+        - test -f ${PREFIX}/lib/libgtest.a                      # [unix]
+        - test -f ${PREFIX}/lib/libgtest_main.a                 # [unix]
+        - test -f ${PREFIX}/lib/libgtest${SHLIB_EXT}            # [unix]
+        - test -f ${PREFIX}/lib/pkgconfig/gtest.pc              # [unix]
+        - test -f ${PREFIX}/lib/pkgconfig/gtest_main.pc         # [unix]
+        - test -d ${PREFIX}/include/gtest                       # [unix]
+
+  - name: gmock
+    version: {{ version }}
+    requirements:
+      run_constrained:
+        - gtest {{ version }}
+    files:
+      -  include/gmock                                          # [unix]
+      -  lib/libgmock*                                          # [unix]
+      -  lib/pkgconfig/gmock*.pc                                # [unix]
+    test:
+      commands:
+        - test -f ${PREFIX}/lib/libgmock.a                      # [unix]
+        - test -f ${PREFIX}/lib/libgmock_main.a                 # [unix]
+        - test -f ${PREFIX}/lib/libgmock${SHLIB_EXT}            # [unix]
+        - test -f ${PREFIX}/lib/pkgconfig/gmock.pc              # [unix]
+        - test -f ${PREFIX}/lib/pkgconfig/gmock_main.pc         # [unix]
+        - test -d ${PREFIX}/include/gmock                       # [unix]
+
+about:
+  home: https://github.com/google/googletest
+  license: BSD 3-Clause
+  license_family: BSD
+  license_file: googletest/LICENSE
+  summary: Google's C++ test framework
+
+extra:
+  recipe-maintainers:
+    - SylvainCorlay
+    - scopatz
+    - wesm
+    - marcelotrevisani
+    - xhochy

@@ -1,0 +1,14 @@
+name: gtest
+version: 1.8.1
+
+channels:
+  - file:///mnt/d/Conda_Repo/conda-scns/release/x86_64/centos-7/gcc48/mpich-3.2/mpich-3.2/
+  - file:///home/xzw/conda/conda-bld/
+
+
+specs:
+  - python 2.7.*
+  - gtest 1.8.1
+  - gmock 1.8.1
+
+install_in_dependency_order: true
